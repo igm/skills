@@ -4,7 +4,6 @@ description: >
   Refactor a CLAUDE.md file to follow progressive disclosure principles. Use when the user
   says "cleanup CLAUDE.md", "refactor CLAUDE.md", "organize instructions", "slim down
   CLAUDE.md", or wants to reduce context bloat in their project instructions.
-disable-model-invocation: true
 ---
 
 # CLAUDE.md Cleanup
