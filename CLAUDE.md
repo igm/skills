@@ -20,27 +20,9 @@ skill-name/
 
 Frontmatter allowed fields: `name`, `description`, `license`, `allowed-tools`, `metadata`. No other fields.
 
-## Development Workflow
-
-**Initialize a new skill:**
-```bash
-python skill-dev/scripts/init_skill.py <skill-name> --path .
-```
-
-**Validate a skill:**
-```bash
-python skill-dev/scripts/quick_validate.py <skill-name>/
-```
-
-**Package a skill for distribution** (validates first, then creates `<skill-name>.skill` zip):
-```bash
-python skill-dev/scripts/package_skill.py <skill-name>/
-```
-
 ## Key Conventions
 
 - Skill `description` in frontmatter is the triggering mechanism — make it comprehensive with concrete "when to use" phrases. Keep `name` hyphen-case, max 64 chars; `description` max 1024 chars.
 - SKILL.md body should stay under 500 lines. Move verbose content to `references/` files and link to them from SKILL.md.
 - Never create README.md, CHANGELOG.md, or other auxiliary docs inside skill directories — only files an AI agent needs to do the job.
 - Commit messages use Conventional Commits (`feat`, `fix`, `docs`, `refactor`, `chore`, etc.). Do NOT add `Co-Authored-By: Claude` trailers.
-- Reference design patterns: `skill-dev/references/workflows.md` (sequential/conditional flows), `skill-dev/references/output-patterns.md` (templates and examples).
