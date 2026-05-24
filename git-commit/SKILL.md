@@ -4,7 +4,6 @@ description: >
   Commit changes to the current branch using conventional commit format. Use when the user
   says "commit", "commit changes", "make a commit", or "git commit". Runs tests first if
   the project has a test suite, groups unrelated changes into separate commits.
-disable-model-invocation: true
 ---
 
 # Git Commit
@@ -52,3 +51,4 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 - First line under 72 chars
 - Reference issues in footer: `Closes #123`
 - Body explains WHY, not just WHAT
+- Do NOT include `Co-Authored-By: Claude` or any AI co-author trailer
