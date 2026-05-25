@@ -1,148 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{PLAN_TITLE}}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css">
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1a1a1a; padding: 32px 20px 64px; max-width: 1100px; margin: 0 auto; }
-  h1 { font-size: 24px; margin-bottom: 4px; }
-  .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #666; }
-  .meta { font-size: 12px; color: #888; margin-bottom: 20px; }
+  html { font-size: 87.5%; }
+  :root { --pico-line-height: 1.4; }
 
-  .context-box { background: #f5f5f5; border-left: 3px solid #333; padding: 14px 18px; margin-bottom: 28px; }
-  .context-box h2 { font-size: 11px; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+  /* Checkbox done-state */
+  article:has(.step-check:checked) { opacity: 0.45; }
+  article:has(.step-check:checked) strong { text-decoration: line-through; }
+  li:has(.verify-check:checked) { opacity: 0.45; }
+  li:has(.verify-check:checked) strong { text-decoration: line-through; }
 
-  .section { margin-bottom: 28px; }
-  .section-title { font-size: 14px; font-weight: 600; padding: 6px 10px; background: #f0f0f0; border-radius: 4px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-  .anchor-link { font-size: 11px; color: #999; text-decoration: none; opacity: 0; transition: opacity 0.15s; }
-  .section-title:hover .anchor-link { opacity: 1; }
+  /* Anchor links */
+  .anchor { font-size: 0.7em; opacity: 0; text-decoration: none; margin-left: 0.4em; transition: opacity 0.15s; }
+  h2:hover .anchor, h3:hover .anchor { opacity: 1; }
 
-  .card { border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px; overflow: hidden; }
-  .card:has(.step-check:checked) { opacity: 0.4; }
-  .card:has(.step-check:checked) .card-title { text-decoration: line-through; color: #aaa; }
-  .card-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
-  .card-body { padding: 10px 14px 14px; border-top: 1px solid #eee; font-size: 13px; }
-  .card-title-block { flex: 1; }
-  .card-title { font-size: 14px; font-weight: 600; }
-  .card-subtitle { font-size: 12px; color: #777; }
-
-  .step-check, .verify-check { flex-shrink: 0; accent-color: #0a0; cursor: pointer; }
-
-  .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
-  .badge.red    { background: #fee; color: #c00; }
-  .badge.orange { background: #fef6e8; color: #a60; }
-  .badge.green  { background: #eef9ee; color: #080; }
-  .badge.blue   { background: #eef5ff; color: #06c; }
-
-  .tags { display: flex; gap: 4px; flex-shrink: 0; }
-  .tag { font-size: 10px; color: #777; background: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; padding: 1px 6px; }
-
-  pre { background: #f6f8fa; border: 1px solid #ddd; border-radius: 4px; padding: 12px 14px; overflow-x: auto; margin: 8px 0; font-family: 'SF Mono', Consolas, monospace; font-size: 12px; line-height: 1.5; }
-  pre code { background: none !important; border: none !important; padding: 0 !important; font-family: inherit; }
-  :not(pre) > code { background: #f0f0f0; border: 1px solid #ddd; border-radius: 2px; padding: 1px 5px; font-family: monospace; font-size: 12px; }
-  .file-ref { display: inline-flex; font-family: monospace; font-size: 11px; color: #06c; background: #eef5ff; border: 1px solid #cce0ff; border-radius: 2px; padding: 1px 6px; }
-
-  .checklist { list-style: none; padding: 0; }
-  .checklist li { display: flex; gap: 8px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid #eee; font-size: 13px; }
-  .checklist li:last-child { border-bottom: none; }
-  .checklist li:has(.verify-check:checked) { opacity: 0.4; }
-  .checklist li:has(.verify-check:checked) strong { text-decoration: line-through; }
-
-  .step-list { display: flex; flex-direction: column; gap: 4px; }
-  .step-item { display: flex; gap: 8px; align-items: center; padding: 7px 12px; background: #fafafa; border: 1px solid #eee; border-radius: 3px; font-size: 13px; }
-  .step-num { font-size: 11px; color: #999; min-width: 16px; font-family: monospace; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
-  th { text-align: left; font-size: 11px; text-transform: uppercase; color: #888; font-weight: 600; padding: 5px 8px; border-bottom: 1px solid #ddd; }
-  td { padding: 7px 8px; border-bottom: 1px solid #eee; }
-  tr:last-child td { border-bottom: none; }
+  /* Badges */
+  [data-badge] { font-size: 0.65em; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; display: inline-block; vertical-align: middle; }
+  [data-badge="risk"]   { background: #fee; color: #c00; }
+  [data-badge="warn"]   { background: #fef6e8; color: #a60; }
+  [data-badge="safe"]   { background: #eef9ee; color: #080; }
+  [data-badge="info"]   { background: #eef5ff; color: #06c; }
 </style>
 </head>
 <body>
+<main>
 
-  <div class="eyebrow"><!-- e.g. "Implementation Plan" / "Refactor Proposal" --></div>
-  <h1><!-- Plan title --></h1>
-  <div class="meta">
-    <span>📅 <!-- date --></span>
-    <span>🔬 <!-- scope --></span>
-  </div>
+  <header>
+    <small><!-- e.g. Implementation Plan / Refactor Proposal --></small>
+    <h1><!-- Plan title --></h1>
+    <p><small>📅 <!-- date --> &nbsp;&nbsp; 🔬 <!-- scope --></small></p>
+  </header>
 
-  <div class="context-box">
-    <h2>Context</h2>
+  <aside>
+    <h4>Context</h4>
     <p><!-- Why this plan exists. The problem or need it addresses. --></p>
     <p><!-- Key drivers / what prompted this work. --></p>
-  </div>
+  </aside>
 
   <!-- ── PHASE — each gets an id for anchoring ── -->
-  <div class="section" id="phase-1">
-    <div class="section-title">
-      <!-- Phase title -->
-      <a class="anchor-link" href="#phase-1">#phase-1</a>
-    </div>
+  <section id="phase-1">
+    <h2><!-- Phase title --> <a class="anchor" href="#phase-1">#phase-1</a></h2>
 
-    <!-- CARD — check the checkbox to mark done (toggleable, no persistence) -->
-    <div class="card" id="phase-1-step-1">
-      <div class="card-header">
-        <input type="checkbox" class="step-check">
-        <span class="badge blue">info</span><!-- red / orange / green / blue -->
-        <div class="card-title-block">
-          <div class="card-title"><!-- Step title --></div>
-          <div class="card-subtitle"><!-- One-liner description --></div>
-        </div>
-        <div class="tags">
-          <span class="tag">backend</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="sub">
-          <h4>Details</h4>
-          <p>What to do. Reference file paths and line numbers.</p>
-          <div class="file-ref">path/to/file.go:42–88</div>
-        </div>
-      </div>
-    </div>
-    <!-- END CARD -->
+    <!-- STEP CARD — check the checkbox to mark done (session-only, no persistence) -->
+    <article id="phase-1-step-1">
+      <header>
+        <label>
+          <input type="checkbox" class="step-check">
+          <span data-badge="info">info</span> <!-- risk / warn / safe / info -->
+          <strong><!-- Step title --></strong>
+        </label>
+        <small><!-- One-liner description --></small>
+      </header>
+      <p>What to do. Reference file paths and line numbers.</p>
+      <p><code>path/to/file.go:42–88</code> &nbsp; <kbd>backend</kbd></p>
+    </article>
+    <!-- END STEP CARD -->
 
-  </div>
+  </section>
   <!-- END PHASE — repeat per phase -->
 
   <!-- VERIFICATION CHECKLIST -->
-  <div class="section" id="verification">
-    <div class="section-title">
-      Verification Checklist
-      <a class="anchor-link" href="#verification">#verification</a>
-    </div>
-    <ul class="checklist">
-      <li>
-        <input type="checkbox" class="verify-check">
-        <div><strong>Item:</strong> How to verify.</div>
-      </li>
-      <li>
-        <input type="checkbox" class="verify-check">
-        <div><strong>Build:</strong> <code>go build .</code> passes.</div>
-      </li>
+  <section id="verification">
+    <h2>Verification Checklist <a class="anchor" href="#verification">#verification</a></h2>
+    <ul>
+      <li><label><input type="checkbox" class="verify-check"> <strong>Item:</strong></label> How to verify.</li>
+      <li><label><input type="checkbox" class="verify-check"> <strong>Build:</strong></label> <code>go build .</code> passes.</li>
     </ul>
-  </div>
+  </section>
 
   <!-- EXECUTION ORDER -->
-  <div class="section" id="execution-order">
-    <div class="section-title">
-      Execution Order
-      <a class="anchor-link" href="#execution-order">#execution-order</a>
-    </div>
-    <div class="step-list">
-      <div class="step-item"><span class="step-num">1</span><span><!-- Step description --></span></div>
-      <div class="step-item"><span class="step-num">2</span><span><!-- Step description --></span></div>
-    </div>
-  </div>
+  <section id="execution-order">
+    <h2>Execution Order <a class="anchor" href="#execution-order">#execution-order</a></h2>
+    <ol>
+      <li><!-- Step description --></li>
+      <li><!-- Step description --></li>
+    </ol>
+  </section>
+
+</main>
 
 <!-- Syntax highlighting via highlight.js (CDN) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-<script>
-if (typeof hljs !== 'undefined') hljs.highlightAll();
-</script>
+<script>if (typeof hljs !== 'undefined') hljs.highlightAll();</script>
 
 </body>
 </html>

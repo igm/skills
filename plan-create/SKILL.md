@@ -53,17 +53,23 @@ Good slug examples:
 fill in real content. Do not copy boilerplate sections that don't apply.
 
 **Anchor links:** Step cards use `id="phase-N-step-M"`, phase sections use `id="phase-N"`.
-Each `.section-title` must include an `<a class="anchor-link" href="#ID">#ID</a>` that reveals
+Each phase `<h2>` and `<h3>` must include an `<a class="anchor" href="#ID">#ID</a>` that reveals
 on hover so readers can copy-permalink to any phase or step.
 
-Checkboxes use native `<input type="checkbox" class="step-check">` inside `.card-header` and
-`<input type="checkbox" class="verify-check">` in checklist items. CSS `:has()` handles the
-done/strikethrough state — no JavaScript needed. Checked state is session-only (no persistence).
+Checkboxes use native `<input type="checkbox" class="step-check">` wrapped in a `<label>` inside
+`<article><header>` and `<input type="checkbox" class="verify-check">` in checklist `<li>` items.
+CSS `:has()` handles the done/strikethrough state — no JavaScript needed. Checked state is
+session-only (no persistence).
 
 **HTML requirements:**
 
-- Use the design system from the template (CSS variables, card/badge/tag/checklist classes)
-- Every card/step must have: file path(s), concrete approach, measurable outcome
+- Use semantic HTML elements styled by Pico CSS (loaded from CDN in template) — no custom classes
+  beyond `.step-check`, `.verify-check`, and `.anchor`; no inline styles
+- Structure: `<main>` → `<section id="phase-N">` → `<article id="phase-N-step-M">` per step
+- Badges: `<span data-badge="info|safe|warn|risk">` (CSS in template handles colors)
+- Tags/labels: `<kbd>tag-name</kbd>`
+- Context block: `<aside>` with `<h4>Context</h4>`
+- Every step must have: file path(s) in `<code>`, concrete approach, measurable outcome
 - Verification checklist at the end with specific, runnable checks
 - Recommended execution order when multiple changes are involved
 
